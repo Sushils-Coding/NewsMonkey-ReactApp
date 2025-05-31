@@ -7,7 +7,6 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import LoadingBar from 'react-top-loading-bar';
 
 // Create ThemeContext
 export const ThemeContext = createContext();
