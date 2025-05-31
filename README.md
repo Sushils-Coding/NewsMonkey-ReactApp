@@ -50,7 +50,7 @@ In the project directory, you can run:
 
 ## 📸 Preview
 
-![NewsMonkey Screenshot](public/webpage-look.png)
+![NewsMonkey Screenshot](public/webpage_look.png)
 
 ---
 
@@ -59,12 +59,6 @@ In the project directory, you can run:
 - [React Documentation](https://reactjs.org/)
 - [Create React App Docs](https://facebook.github.io/create-react-app/docs/getting-started)
 - [NewsAPI Documentation](https://newsapi.org/docs)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ---
 
