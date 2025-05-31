@@ -12,8 +12,7 @@ import LoadingBar from 'react-top-loading-bar';
 const App = () => {
 
   const pageSize = 20;
-  const apikey = "540d7143ceef4fb4b06a562bd7c48661"
-  //const apikey = process.env.REACT_APP_NEWS_API;
+  const apikey = process.env.REACT_APP_NEWS_API;
 
   const categories = ['Business', 'Entertainment', 'Health', 'Science', 'Sports', 'Technology'];
 
@@ -37,12 +36,12 @@ const App = () => {
           /> */}
         <Routes>
           <Route path='/'
-            element={<News apikey={apikey} setProgress={setProgress} pageSize={pageSize} country='in' category='General' />} />
+            element={<News apikey={apikey} setProgress={setProgress} pageSize={pageSize} country='us' category='General' />} />
 
           {categories.map((elem) => {
             return <Route key={elem} exact
               path={`/${elem}`}
-              element={<News apikey={apikey} setProgress={setProgress} key={elem} pageSize={pageSize} country="in" category={elem} />} />
+              element={<News apikey={apikey} setProgress={setProgress} key={elem} pageSize={pageSize} country="us" category={elem} />} />
           })}
 
         </Routes>

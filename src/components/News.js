@@ -10,7 +10,7 @@ const News = (props) => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
-    
+
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -24,32 +24,20 @@ const News = (props) => {
         props.setProgress(30);
         let parsedData = await data.json()
         props.setProgress(70);
-        console.log(parsedData)
+        // console.log(parsedData)
 
         setArticles(parsedData.articles)
         setTotalResults(parsedData.totalResults)
         setLoading(false)
-        
+
         props.setProgress(100);
-        }
-        
-        useEffect(() => {
+    }
+
+    useEffect(() => {
         document.title = `${capitalizeFirstLetter(props.category)} - NewsMonkey`;
         updateNews()
         // eslint disable next line
     }, [])
-
-    const handlePrevClick = async () => {
-
-        setPage(page - 1);
-        updateNews();
-    }
-
-    const handleNextClick = async () => {
-
-        setPage(page + 1)
-        updateNews()
-    }
 
     const fetchMoreData = async () => {
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page + 1}&pageSize=${props.pageSize}`;
@@ -57,27 +45,25 @@ const News = (props) => {
         setPage(page + 1)
         let data = await fetch(url);
         let parsedData = await data.json()
-        console.log(parsedData)
         setArticles(articles.concat(parsedData.articles))
         setTotalResults(parsedData.totalResults)
-        // setLoading(false);
     };
 
 
     return (
         <>
-            <h1 className='text-center' style={{ margin: '35px 0px' }}>NewsMonkey - Top {props.category} Headlines</h1>
+            <h1 className='text-center news-heading-animate' style={{ margin: '35px 0px' }}>NewsMonkey - Top {props.category} Headlines</h1>
             {loading && <Spinner />}
             <InfiniteScroll
                 dataLength={articles.length}
-                next={fetchMoreData()}
+                next={fetchMoreData}
                 hasMore={articles.length !== totalResults}
                 loader={<Spinner />}
             >
                 <div className="container">
                     <div className="row">
-                        {articles.map((element) => {
-                            return <div key={element.url} className="col-md-4">
+                        {articles.map((element, idx) => {
+                            return <div key={element.url} className="col-md-4 news-col-animate" style={{ transitionDelay: `${idx * 60}ms` }}>
                                 <NewsItem imageUrl={element.urlToImage} title={element.title} description={element.description} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
                             </div>
                         })}
@@ -86,12 +72,6 @@ const News = (props) => {
             </InfiniteScroll>
         </ >
     )
-}
-
-News.defaultProps = {
-    country: 'in',
-    pageSize: 8,
-    category: 'general',
 }
 
 News.propTypes = {
