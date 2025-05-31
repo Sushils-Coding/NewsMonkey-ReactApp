@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 import NavBar from './components/NavBar';
 import News from './components/News';
 import {
@@ -9,6 +9,9 @@ import {
 } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar';
 
+// Create ThemeContext
+export const ThemeContext = createContext();
+
 const App = () => {
 
   const pageSize = 20;
@@ -17,36 +20,40 @@ const App = () => {
   const categories = ['Business', 'Entertainment', 'Health', 'Science', 'Sports', 'Technology'];
 
   const [progress, setProgress] = useState(10)
+  const [theme, setTheme] = useState('light');
 
-  // const setProgress = (progress) => {
-  //   setProgress(progress = progress)
-  // }
+  // Toggle theme handler
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    document.body.className = theme === 'light' ? 'dark-theme' : 'light-theme';
+  };
 
   return (
     <>
-      <Router>
-        <NavBar />
-        {/* <News pageSize={20} country="in" category= 'health' /> */}
-        {/* <LoadingBar
-            height={3}
-            color='#f11946'
-            // progress={10}
-            progress={progress}
-            
-          /> */}
-        <Routes>
-          <Route path='/'
-            element={<News apikey={apikey} setProgress={setProgress} pageSize={pageSize} country='us' category='General' />} />
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <Router>
+          <NavBar />
+          {/* <News pageSize={20} country="in" category= 'health' /> */}
+          {/* <LoadingBar
+              height={3}
+              color='#f11946'
+              // progress={10}
+              progress={progress}
+              
+            /> */}
+          <Routes>
+            <Route path='/'
+              element={<News apikey={apikey} setProgress={setProgress} pageSize={pageSize} country='us' category='General' />} />
 
-          {categories.map((elem) => {
-            return <Route key={elem} exact
-              path={`/${elem}`}
-              element={<News apikey={apikey} setProgress={setProgress} key={elem} pageSize={pageSize} country="us" category={elem} />} />
-          })}
+            {categories.map((elem) => {
+              return <Route key={elem} exact
+                path={`/${elem}`}
+                element={<News apikey={apikey} setProgress={setProgress} key={elem} pageSize={pageSize} country="us" category={elem} />} />
+            })}
 
-        </Routes>
-      </Router>
-
+          </Routes>
+        </Router>
+      </ThemeContext.Provider>
     </>
   )
 
